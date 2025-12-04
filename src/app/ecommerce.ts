@@ -232,13 +232,14 @@ export const EcommerceStore= signalStore(
         wishlistItems: [],
         cartItems:[]
     } as EcommerceState),
-    withComputed(({category, products, wishlistItems}) => ({
+    withComputed(({category, products, wishlistItems, cartItems}) => ({
         filteredProducts: computed(() => {
     if(category()=== 'all' )return products();
 
     return products().filter((p) => p.category === category().toLowerCase());
        }),
-       wishlistCount : computed(() =>wishlistItems().length)
+       wishlistCount : computed(() =>wishlistItems().length),
+       cartCount : computed(() => cartItems().reduce((acc, item ) => acc + item.quantity , 0)),
     })),
 
   

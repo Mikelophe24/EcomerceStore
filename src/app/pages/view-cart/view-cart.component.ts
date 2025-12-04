@@ -1,0 +1,26 @@
+import { Component } from '@angular/core';
+import { BackButtonComponent } from "../../componenents/back-button/back-button.component";
+import { ListCartItemsComponent } from "./list-cart-items/list-cart-items.component";
+
+@Component({
+  selector: 'app-view-cart',
+  standalone: true,
+  imports: [BackButtonComponent, ListCartItemsComponent],
+  template: `
+    <div class="mx-auto max-w-[1200px] py-6">
+        <app-back-button class="mb-6" navigateTo="/products/all">Continue Shopping </app-back-button>
+        <h1 class="text-3xl font-extrabold mb-4">Shopping Cart</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2">
+              <app-list-cart-items/>
+          </div>
+        </div>
+
+    </div>
+  `,
+  styles: ``
+})
+export  default class ViewCartComponent {
+
+}
