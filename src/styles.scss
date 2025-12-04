@@ -6,6 +6,10 @@
 @use '@angular/material' as mat;
 @use 'tailwindcss';
 
+/* Importing @ngxpert/hot-toast SCSS file. */
+@use '@ngxpert/hot-toast/styles';
+
+
 html {
   @include mat.theme(
     (
@@ -62,7 +66,10 @@ body {
 }
 
 .elevated {
-  box-shadow: var(--mat-sys-level2);
+  box-shadow: 
+    0 3px 1px -2px rgba(0,0,0,0.2),
+    0 2px 2px 0 rgba(0,0,0,0.14),
+    0 1px 5px 0 rgba(0,0,0,0.12) !important;
 }
 
 button[matButton] {
@@ -161,7 +168,6 @@ mat-sidenav {
       active-indicator-color: var(--mat-sys-primary),
       active-indicator-shape: 6px,
       list-item-one-line-container-height: 40px,
-      list-item-label-text-color: red,
     )
   );
 }
@@ -177,3 +183,4 @@ mat-sidenav {
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   gap: 1rem;
 }
+
