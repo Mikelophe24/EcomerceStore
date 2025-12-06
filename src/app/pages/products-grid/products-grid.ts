@@ -23,7 +23,7 @@ import { ToggleWishlistButtonComponent } from '../../components/toggle-wishlist-
   ],
   template: `
     <mat-sidenav-container class="h-full">
-      <mat-sidenav mode="side" opened="true">
+      <mat-sidenav mode="side" [opened]="store.isSidebarOpen()">
         <div class="p-6">
           <h2 class="text-lg text-gray-900">Categories</h2>
           <mat-nav-list>

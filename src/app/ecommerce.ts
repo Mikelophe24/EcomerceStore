@@ -28,6 +28,7 @@ export type EcommerceState = {
   loading: boolean;
 
   selectedProductId: string | undefined;
+  isSidebarOpen: boolean;
 };
 
 export const EcommerceStore = signalStore(
@@ -653,37 +654,41 @@ export const EcommerceStore = signalStore(
     user: undefined,
     loading: false,
     selectedProductId: undefined,
+    isSidebarOpen: true,
   } as EcommerceState),
   withStorageSync({
     key: 'modern-store',
     select: ({ wishlistItems, cartItems, user }) => ({ wishlistItems, cartItems, user }),
   }),
 
-  withComputed(({ category, products, searchQuery, wishlistItems, cartItems, selectedProductId }) => ({
-    filteredProducts: computed(() => {
-      let filtered = products();
-      
-      // Filter by category
-      if (category() !== 'all') {
-        filtered = filtered.filter((p) => p.category === category().toLowerCase());
-      }
-      
-      // Filter by search query
-      const query = searchQuery().toLowerCase().trim();
-      if (query) {
-        filtered = filtered.filter((p) => 
-          p.name.toLowerCase().includes(query) ||
-          p.description.toLowerCase().includes(query) ||
-          p.category.toLowerCase().includes(query)
-        );
-      }
-      
-      return filtered;
-    }),
-    wishlistCount: computed(() => wishlistItems().length),
-    cartCount: computed(() => cartItems().reduce((acc, item) => acc + item.quantity, 0)),
-    selectedProduct: computed(() => products().find((p) => p.id === selectedProductId())),
-  })),
+  withComputed(
+    ({ category, products, searchQuery, wishlistItems, cartItems, selectedProductId }) => ({
+      filteredProducts: computed(() => {
+        let filtered = products();
+
+        // Filter by category
+        if (category() !== 'all') {
+          filtered = filtered.filter((p) => p.category === category().toLowerCase());
+        }
+
+        // Filter by search query
+        const query = searchQuery().toLowerCase().trim();
+        if (query) {
+          filtered = filtered.filter(
+            (p) =>
+              p.name.toLowerCase().includes(query) ||
+              p.description.toLowerCase().includes(query) ||
+              p.category.toLowerCase().includes(query)
+          );
+        }
+
+        return filtered;
+      }),
+      wishlistCount: computed(() => wishlistItems().length),
+      cartCount: computed(() => cartItems().reduce((acc, item) => acc + item.quantity, 0)),
+      selectedProduct: computed(() => products().find((p) => p.id === selectedProductId())),
+    })
+  ),
 
   withMethods(
     (
@@ -703,6 +708,10 @@ export const EcommerceStore = signalStore(
       setProductId: signalMethod<string>((productId: string) => {
         patchState(store, { selectedProductId: productId });
       }),
+
+      toggleSidebar: () => {
+        patchState(store, { isSidebarOpen: !store.isSidebarOpen() });
+      },
 
       addToWishlish(product: Product) {
         const updatedWishlistItems = produce(store.wishlistItems(), (draft) => {
@@ -910,7 +919,7 @@ export const EcommerceStore = signalStore(
           };
 
           draft[productIndex].reviews.push(newReview);
-          
+
           // Update product rating and review count
           const reviews = draft[productIndex].reviews;
           const sum = reviews.reduce((acc, review) => acc + review.rating, 0);

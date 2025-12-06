@@ -4,6 +4,8 @@ import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { HeaderActions } from '../header-actions/header-actions';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { inject } from '@angular/core';
+import { EcommerceStore } from '../../ecommerce';
 
 @Component({
   selector: 'app-header',
@@ -13,17 +15,17 @@ import { SearchBarComponent } from '../../components/search-bar/search-bar.compo
       <div class="max-w-[1200px] mx-auto w-full flex items-center justify-between gap-4">
         <!-- Left: Menu + Store Name -->
         <div class="flex items-center gap-2 flex-shrink-0">
-          <button matIconButton class="text-gray-700">
+          <button matIconButton class="text-gray-700" (click)="store.toggleSidebar()">
             <mat-icon>menu</mat-icon>
           </button>
           <span class="text-gray-800 font-medium">Modern Store</span>
         </div>
-        
+
         <!-- Center: Search Bar -->
         <div class="flex-1 max-w-[650px] mx-4">
           <app-search-bar />
         </div>
-        
+
         <!-- Right: Header Actions -->
         <div class="flex-shrink-0">
           <app-header-actions />
@@ -33,4 +35,6 @@ import { SearchBarComponent } from '../../components/search-bar/search-bar.compo
   `,
   styles: ``,
 })
-export class Header {}
+export class Header {
+  store = inject(EcommerceStore);
+}
