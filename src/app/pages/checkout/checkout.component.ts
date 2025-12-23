@@ -27,18 +27,22 @@ import { MatButton } from '@angular/material/button';
           <app-shipping-form />
           <app-payment-form />
         </div>
+
         <div class="lg:col-span-2">
           <app-summarize-order>
+            <!--cartItems -->
             <ng-container checkoutItems>
               @for(item of store.cartItems(); track item.product.id){
               <div class="text-sm flex justify-between">
                 <span>{{ item.product.name }} x {{ item.quantity }}</span>
                 <span> $ {{ (item.product.price * item.quantity).toFixed(0) }}</span>
-              </div>
+              </div>  
               }
             </ng-container>
 
             <ng-container actionButtons>
+              <!-- Place Order Button -->
+
               <button
                 matButton="filled"
                 class="w-full mt-6 py-3"

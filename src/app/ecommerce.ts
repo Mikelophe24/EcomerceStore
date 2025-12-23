@@ -793,18 +793,19 @@ export const EcommerceStore = signalStore(
         });
       },
 
-      proceedToCheckout: () => {
-        if (!store.user()) {
-          matDialog.open(SignInDialogComponent, {
-            disableClose: true,
-            data: {
-              checkout: true,
-            },
-          });
-          return;
-        }
-        router.navigate(['/checkout']);
-      },
+      // ❌ DISABLED: Checkout functionality
+      // proceedToCheckout: () => {
+      //   if (!store.user()) {
+      //     matDialog.open(SignInDialogComponent, {
+      //       disableClose: true,
+      //       data: {
+      //         checkout: true,
+      //       },
+      //     });
+      //     return;
+      //   }
+      //   router.navigate(['/checkout']);
+      // },
 
       signUp({ email, password, name, dialogId }: SignUpParams) {
         const usersStr = localStorage.getItem('app_users');
@@ -857,78 +858,80 @@ export const EcommerceStore = signalStore(
         }
       },
 
-      placeOrder: async () => {
-        patchState(store, { loading: true });
+      // ❌ DISABLED: Place order functionality
+      // placeOrder: async () => {
+      //   patchState(store, { loading: true });
 
-        const user = store.user();
-        if (!user) {
-          toaster.error('Please login before placing order');
-          patchState(store, { loading: false });
-          return;
-        }
+      //   const user = store.user();
+      //   if (!user) {
+      //     toaster.error('Please login before placing order');
+      //     patchState(store, { loading: false });
+      //     return;
+      //   }
 
-        const order: Order = {
-          id: crypto.randomUUID(),
-          userId: user.id,
-          total: Math.round(
-            store.cartItems().reduce((acc, item) => acc + item.quantity * item.product.price, 0)
-          ),
-          items: store.cartItems(),
-          paymentStatus: 'success',
-        };
+      //   const order: Order = {
+      //     id: crypto.randomUUID(),
+      //     userId: user.id,
+      //     total: Math.round(
+      //       store.cartItems().reduce((acc, item) => acc + item.quantity * item.product.price, 0)
+      //     ),
+      //     items: store.cartItems(),
+      //     paymentStatus: 'success',
+      //   };
 
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+      //   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        patchState(store, { loading: false, cartItems: [] });
-        router.navigate(['order-success']);
-      },
+      //   patchState(store, { loading: false, cartItems: [] });
+      //   router.navigate(['order-success']);
+      // },
 
       signOut: () => {
         patchState(store, { user: undefined });
       },
 
-      submitReview: signalMethod<{
-        productId: string;
-        title: string;
-        rating: number;
-        comment: string;
-      }>((params) => {
-        const user = store.user();
-        if (!user) {
-          toaster.error('Please sign in to submit a review');
-          return;
-        }
+      // ❌ DISABLED: Submit review functionality
+      // submitReview: signalMethod<{
+      //   productId: string;
+      //   title: string;
+      //   rating: number;
+      //   comment: string;
+      // }>((params) => {
+      //   const user = store.user();
+      //   if (!user) {
+      //     toaster.error('Please sign in to submit a review');
+      //     return;
+      //   }
 
-        const products = store.products();
-        const productIndex = products.findIndex((p) => p.id === params.productId);
-        if (productIndex === -1) {
-          toaster.error('Product not found');
-          return;
-        }
+      //   const products = store.products();
+      //   const productIndex = products.findIndex((p) => p.id === params.productId);
+      //   if (productIndex === -1) {
+      //     toaster.error('Product not found');
+      //     return;
+      //   }
 
-        const updatedProducts = produce(products, (draft) => {
-          const newReview = {
-            id: crypto.randomUUID(),
-            productId: params.productId,
-            userName: user.name,
-            userImageUrl: user.imageUrl,
-            rating: params.rating,
-            title: params.title,
-            comment: params.comment,
-            reviewDate: new Date(),
-          };
+      //   const updatedProducts = produce(products, (draft) => {
+      //     const newReview = {
+      //       id: crypto.randomUUID(),
+      //       productId: params.productId,
+      //       userName: user.name,
+      //       userImageUrl: user.imageUrl,
+      //       rating: params.rating,
+      //       title: params.title,
+      //       comment: params.comment,
+      //       reviewDate: new Date(),
+      //     };
 
-          draft[productIndex].reviews.push(newReview);
+      //     draft[productIndex].reviews.push(newReview);
 
-          // Update product rating and review count
-          const reviews = draft[productIndex].reviews;
-          const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
-          draft[productIndex].rating = Number((sum / reviews.length).toFixed(1));
-          draft[productIndex].reviewCount = reviews.length;
-        });
+      //     // Update product rating and review count
+      //     const reviews = draft[productIndex].reviews;
+      //     const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+      //     draft[productIndex].rating = Number((sum / reviews.length).toFixed(1));
+      //     draft[productIndex].reviewCount = reviews.length;
+      //   });
 
-        patchState(store, { products: updatedProducts });
-      }),
+      //   patchState(store, { products: updatedProducts });
+      // }),
     })
   )
 );

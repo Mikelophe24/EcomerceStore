@@ -21,7 +21,7 @@ import { ToasterService } from '../../../servives/toaster.service';
   template: `
     <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mb-6">
       <h3 class="text-lg font-semibold mb-4">Write a Review</h3>
-      
+
       <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="outline" class="w-full mb-4">
           <mat-label>Rating*</mat-label>
@@ -38,35 +38,31 @@ import { ToasterService } from '../../../servives/toaster.service';
           <mat-label>Review Title*</mat-label>
           <input matInput formControlName="title" placeholder="Summarize your review" />
           @if (reviewForm.get('title')?.hasError('required') && reviewForm.get('title')?.touched) {
-            <mat-error>Review title is required</mat-error>
+          <mat-error>Review title is required</mat-error>
           }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="w-full mb-4">
           <mat-label>Review**</mat-label>
-          <textarea 
-            matInput 
-            formControlName="comment" 
+          <textarea
+            matInput
+            formControlName="comment"
             rows="6"
             placeholder="Share your experience with this product"
             class="resize-y"
           ></textarea>
-          @if (reviewForm.get('comment')?.hasError('required') && reviewForm.get('comment')?.touched) {
-            <mat-error>Review text is required</mat-error>
+          @if (reviewForm.get('comment')?.hasError('required') &&
+          reviewForm.get('comment')?.touched) {
+          <mat-error>Review text is required</mat-error>
           }
         </mat-form-field>
 
         <div class="flex gap-3 justify-end">
-          <button 
-            type="button" 
-            mat-button 
-            (click)="onCancelClick()"
-            class="!text-blue-600"
-          >
+          <button type="button" mat-button (click)="onCancelClick()" class="!text-blue-600">
             Cancel
           </button>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             mat-button
             [disabled]="reviewForm.invalid"
             [class.opacity-50]="reviewForm.invalid"
@@ -105,26 +101,29 @@ export class WriteReviewFormComponent {
       return;
     }
 
-    const formValue = this.reviewForm.value;
-    this.store.submitReview({
-      productId: this.product().id,
-      title: formValue.title!,
-      rating: formValue.rating!,
-      comment: formValue.comment!,
-    });
+    // ❌ DISABLED: Submit review functionality
+    this.toaster.error('Review submission is currently disabled');
 
-    this.reviewForm.reset({
-      title: '',
-      rating: 5,
-      comment: '',
-    });
-    this.reviewForm.markAsUntouched();
-    
-    // Delay emit to avoid router transition conflicts
-    setTimeout(() => {
-      this.onCancel.emit();
-      this.toaster.success('Review submitted successfully');
-    }, 0);
+    // const formValue = this.reviewForm.value;
+    // this.store.submitReview({
+    //   productId: this.product().id,
+    //   title: formValue.title!,
+    //   rating: formValue.rating!,
+    //   comment: formValue.comment!,
+    // });
+
+    // this.reviewForm.reset({
+    //   title: '',
+    //   rating: 5,
+    //   comment: '',
+    // });
+    // this.reviewForm.markAsUntouched();
+
+    // // Delay emit to avoid router transition conflicts
+    // setTimeout(() => {
+    //   this.onCancel.emit();
+    //   this.toaster.success('Review submitted successfully');
+    // }, 0);
   }
 
   onCancelClick() {
@@ -137,4 +136,3 @@ export class WriteReviewFormComponent {
     this.onCancel.emit();
   }
 }
-

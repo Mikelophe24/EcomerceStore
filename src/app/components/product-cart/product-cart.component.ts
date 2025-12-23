@@ -12,7 +12,7 @@ import { StarRatingComponent } from '../star-rating/star-rating.component';
   imports: [MatAnchor, MatIcon, RouterLink, StarRatingComponent],
   template: `
     <div
-      class="relative bg-white cursor-pointer rounded-xl shadow-lg overflow-hidden flex flex-col h-full  transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-xl"
+      class="relative bg-white cursor-pointer rounded-xl shadow-lg ovchecerflow-hidden flex flex-col h-full  transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-xl"
     >
       <img
         [src]="product().imageUrl"

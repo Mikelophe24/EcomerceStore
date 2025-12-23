@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
   imports: [ViewPanelDirective, MatIcon,MatButton, RouterLink],
   template: `
     <div appViewPanel class="flex items-center justify-between">
-
+                                          
       <div class="flex items-center gap-3">
           <mat-icon class="!text-red-500">favorite_border</mat-icon>
             <div>
@@ -21,7 +21,7 @@ import { RouterLink } from '@angular/router';
 
       <div class="flex items-center gap-3">
         <button matButton="text" routerLink="/wishlist">View All</button>
-        <button matButton="filled" class="flex items-center gap-2" (click)="store.addAllWishlistToCart()" (click)="store.addAllWishlistToCart()">
+        <button matButton="filled" class="flex items-center gap-2" (click)="store.addAllWishlistToCart()">
             <mat-icon>shopping_cart</mat-icon>
             Add all to cart
         </button>
