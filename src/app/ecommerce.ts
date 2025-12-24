@@ -813,8 +813,15 @@ export const EcommerceStore = signalStore(
 
         if (foundUser) {
           const { password, ...userWithoutPassword } = foundUser;
+
+          // Restore user's cart/wishlist if exists
+          const userCarts = JSON.parse(localStorage.getItem('user_carts') || '{}');
+          const savedData = userCarts[userWithoutPassword.id];
+
           patchState(store, {
             user: userWithoutPassword,
+            cartItems: savedData?.cartItems || [],
+            wishlistItems: savedData?.wishlistItems || [],
           });
 
           matDialog.getDialogById(dialogId)?.close();
@@ -828,80 +835,27 @@ export const EcommerceStore = signalStore(
         }
       },
 
-      // ❌ DISABLED: Place order functionality
-      // placeOrder: async () => {
-      //   patchState(store, { loading: true });
-
-      //   const user = store.user();
-      //   if (!user) {
-      //     toaster.error('Please login before placing order');
-      //     patchState(store, { loading: false });
-      //     return;
-      //   }
-
-      //   const order: Order = {
-      //     id: crypto.randomUUID(),
-      //     userId: user.id,
-      //     total: Math.round(
-      //       store.cartItems().reduce((acc, item) => acc + item.quantity * item.product.price, 0)
-      //     ),
-      //     items: store.cartItems(),
-      //     paymentStatus: 'success',
-      //   };
-
-      //   await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      //   patchState(store, { loading: false, cartItems: [] });
-      //   router.navigate(['order-success']);
-      // },
-
       signOut: () => {
-        patchState(store, { user: undefined });
+        const currentUser = store.user();
+
+        // Save current user's cart/wishlist before signing out
+        if (currentUser) {
+          const userCarts = JSON.parse(localStorage.getItem('user_carts') || '{}');
+          userCarts[currentUser.id] = {
+            cartItems: store.cartItems(),
+            wishlistItems: store.wishlistItems(),
+          };
+          localStorage.setItem('user_carts', JSON.stringify(userCarts));
+        }
+
+        // Clear current session
+        patchState(store, {
+          user: undefined,
+          cartItems: [],
+          wishlistItems: [],
+        });
+        toaster.success('Signed out successfully');
       },
-
-      // ❌ DISABLED: Submit review functionality
-      // submitReview: signalMethod<{
-      //   productId: string;
-      //   title: string;
-      //   rating: number;
-      //   comment: string;
-      // }>((params) => {
-      //   const user = store.user();
-      //   if (!user) {
-      //     toaster.error('Please sign in to submit a review');
-      //     return;
-      //   }
-
-      //   const products = store.products();
-      //   const productIndex = products.findIndex((p) => p.id === params.productId);
-      //   if (productIndex === -1) {
-      //     toaster.error('Product not found');
-      //     return;
-      //   }
-
-      //   const updatedProducts = produce(products, (draft) => {
-      //     const newReview = {
-      //       id: crypto.randomUUID(),
-      //       productId: params.productId,
-      //       userName: user.name,
-      //       userImageUrl: user.imageUrl,
-      //       rating: params.rating,
-      //       title: params.title,
-      //       comment: params.comment,
-      //       reviewDate: new Date(),
-      //     };
-
-      //     draft[productIndex].reviews.push(newReview);
-
-      //     // Update product rating and review count
-      //     const reviews = draft[productIndex].reviews;
-      //     const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
-      //     draft[productIndex].rating = Number((sum / reviews.length).toFixed(1));
-      //     draft[productIndex].reviewCount = reviews.length;
-      //   });
-
-      //   patchState(store, { products: updatedProducts });
-      // }),
     })
   )
 );

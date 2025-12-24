@@ -80,7 +80,7 @@ export class SignInDialogComponent {
   passwordVisible = signal(false);
 
   signinForm = this.fb.group({
-    email: ['minhvutri12@gmail.com', Validators.required],
+    email: ['minh@gmail.com', Validators.required],
     password: ['123456', Validators.required],
   });
   signIn() {

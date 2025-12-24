@@ -83,8 +83,8 @@ export class SignUpDialogComponent {
 
   // ✅ SỬA: Thêm this.fb.group()
   signupForm = this.fb.group({
-    name: ['John Doe', Validators.required],
-    email: ['john@gmail.com', [Validators.required, Validators.email]],
+    name: ['minh', Validators.required],
+    email: ['minh@gmail.com', [Validators.required, Validators.email]],
     password: ['123456', [Validators.required, Validators.minLength(6)]],
     confirmPassword: ['123456', Validators.required],
   });
