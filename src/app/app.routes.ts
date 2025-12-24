@@ -28,10 +28,7 @@ export const routes: Routes = [
     path: 'checkout',
     loadComponent: () => import('./pages/checkout/checkout.component'),
   },
-  {
-    path: 'order-success',
-    loadComponent: () => import('./pages/order-success/order-success.component'),
-  },
+
   {
     path: 'cart',
     loadComponent: () => import('./pages/view-cart/view-cart.component'),

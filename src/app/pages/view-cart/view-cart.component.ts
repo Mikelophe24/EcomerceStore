@@ -23,10 +23,7 @@ import { EcommerceStore } from '../../ecommerce';
         </div>
         <div>
           <app-summarize-order>
-            <!-- ❌ DISABLED: Checkout button removed -->
-            <!-- <ng-container actionButtons >
-                  <button matButton="filled" class="w-full mt-6 py-3" (click)="store.proceedToCheckout()">Proceed to Checkout</button>
-                </ng-container> -->
+      
           </app-summarize-order>
         </div>
       </div>

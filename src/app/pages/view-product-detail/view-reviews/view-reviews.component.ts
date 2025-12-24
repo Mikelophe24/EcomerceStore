@@ -23,23 +23,7 @@ import { SignInDialogComponent } from '../../../components/sign-in-dialog/sign-i
     <div class="appViewPanel">
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-xl font-semibold">Customer Reviews</h2>
-        <!-- ❌ DISABLED: Write review button removed -->
-        <!-- <button 
-          mat-raised-button 
-          color="primary"
-          (click)="handleWriteReviewClick()"
-        >
-          Write a Review
-        </button> -->
       </div>
-
-      <!-- ❌ DISABLED: Write review form removed -->
-      <!-- @if (showForm()) {
-        <app-write-review-form 
-          [product]="product()" 
-          (onCancel)="showForm.set(false)"
-        />
-      } -->
 
       <app-rating-summary [product]="product()" />
 
