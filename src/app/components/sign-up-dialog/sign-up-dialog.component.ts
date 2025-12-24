@@ -96,13 +96,25 @@ export class SignUpDialogComponent {
     }
 
     const { name, email, password } = this.signupForm.value;
-    this.store.signUp({
+    const success = this.store.signUp({
       name,
       email,
       password,
       dialogId: this.dialogRef.id,
       checkout: this.data?.checkout,
     } as SignUpParams);
+
+    // Nếu đăng ký thành công, mở SignInDialog
+    if (success) {
+      setTimeout(() => {
+        this.matDialog.open(SignInDialogComponent, {
+          disableClose: true,
+          data: {
+            checkout: this.data?.checkout,
+          },
+        });
+      }, 500); // Delay 500ms để user đọc toast message
+    }
   }
 
   openSignInDialog() {

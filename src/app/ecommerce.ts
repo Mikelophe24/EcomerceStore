@@ -779,7 +779,7 @@ export const EcommerceStore = signalStore(
 
         if (users.find((u) => u.email === email)) {
           toaster.error('User already exists');
-          return;
+          return false;
         }
 
         const newUser: User = {
@@ -796,9 +796,13 @@ export const EcommerceStore = signalStore(
         ];
         localStorage.setItem('app_users', JSON.stringify(usersWithPassword));
 
-        patchState(store, { user: newUser });
+        // ❌ KHÔNG tự động đăng nhập
+        // patchState(store, { user: newUser });
+
         matDialog.getDialogById(dialogId)?.close();
-        toaster.success('Account created successfully');
+        toaster.success('Account created successfully! Please sign in.');
+
+        return true; // Return success flag
       },
 
       signIn({ email, password, checkout, dialogId }: SignInParams) {

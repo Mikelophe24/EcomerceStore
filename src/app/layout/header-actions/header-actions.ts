@@ -52,7 +52,7 @@ import { SignUpDialogComponent } from '../../components/sign-up-dialog/sign-up-d
         </div>
         <mat-divider class="mx-3"></mat-divider>
 
-        <!-- ✅ FIX: Flexbox + Tailwind alignment -->
+        <!-- FIX: Flexbox + Tailwind alignment -->
         <button
           mat-menu-item
           (click)="store.signOut()"
